@@ -26,11 +26,15 @@ func main() {
 			log.Fatalf("Error closing cluster %+v", err)
 		}
 	}()
-	fmt.Println("bucket1:", cluster.Bucket("bucket1"))
-	fmt.Println("bucket2:", cluster.Bucket("bucket2"))
+	buckets, err := cluster.Buckets().GetAllBuckets(nil)
+
+	for _, bucket := range buckets {
+		fmt.Println("bucket1:", cluster.Bucket(bucket.Name))
+		fmt.Println("bucket2:", cluster.Bucket(bucket.Name))
+	}
 	time.Sleep(10 * time.Second)
 	cmd := exec.Command("docker", "exec", "couchbase", "couchbase-cli", "bucket-delete", "-c", "localhost", "-u", "Administrator", "-p", "password", "--bucket", "bucket1")
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		log.Fatalf("Error deleting bucket %+v", err)
 	}
