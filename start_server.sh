@@ -2,12 +2,6 @@
 
 set -eux -o pipefail
 
-DOCKER_IMAGE=couchbase/server:enterprise-6.6.5
-DOCKER_IMAGE=couchbase/server:enterprise-7.1.3
-DOCKER_IMAGE=couchbase/server:enterprise-7.0.3
-DOCKER_IMAGE=couchbase/server:enterprise-7.0.5
-DOCKER_IMAGE=couchbase/server:enterprise-7.0.5
-DOCKER_IMAGE=couchbase/server:enterprise-7.0.3
 DOCKER_IMAGE=couchbase/server:enterprise-7.1.4
 
 # kill couchbase if it exists
@@ -15,12 +9,6 @@ docker kill couchbase || true
 docker rm couchbase || true
 docker volume rm couchbase || true
 
-#COUCHBASE_DATA_DIR=${PWD}/cbs
-
-#mkdir -p ${COUCHBASE_DATA_DIR}
-
-#docker run --rm -d --name couchbase -p 8091-8097:8091-8097 -p 9123:9123 -p 11207:11207 -p 11210:11210 -p 11211:11211 -p 18091-18094:18091-18094 --mount "type=bind,src=${COUCHBASE_DATA_DIR},target=/opt/couchbase/var" $DOCKER_IMAGE
-#docker run --rm -d --name couchbase $DOCKER_IMAGE
 docker run --rm -d --name couchbase -p 8091-8096:8091-8096 -p 11207:11207 -p 11210:11210 -p 11211:11211 -p 18091-18094:18091-18094 $DOCKER_IMAGE
 
 curl -L --retry-all-errors --connect-timeout 5 --max-time 10 --retry 20 --retry-delay 0 --retry-max-time 1200 'http://127.0.0.1:8091/'
